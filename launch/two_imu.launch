@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- imu #1 -->
+  <node name="imu1" pkg="ros_imu" type="driver" output="screen" >
+    <param name="device" value="/dev/ttyUSB0" type="str"/>
+    <param name="baud" value="115200" type="int"/>
+  </node>
+
+  <!-- imu #2 -->
+  <node name="imu2" pkg="ros_imu" type="driver" output="screen" >
+    <param name="device" value="/dev/ttyUSB1" type="str"/>
+    <param name="baud" value="115200" type="int"/>
+  </node>
+
+  <!-- imu #n -->
+</launch>

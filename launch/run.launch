@@ -1,0 +1,27 @@
+<launch>
+    <arg name="brviz" default="true"/>
+    <arg name="bplot" default="false"/>
+
+    <!-- Load urdf -->
+    <param if="$(arg brviz)" 
+    name="robot_description" textfile="$(find ros_imu)/urdf/imu.urdf"/>
+
+    <!-- Start rviz -->
+    <node if="$(arg brviz)" 
+    pkg="rviz" type="rviz" name="rviz" args="-d $(find ros_imu)/config/config.rviz" />
+
+    <!-- Start driver -->
+    <node name="imu1" pkg="ros_imu" type="driver" output="screen" >
+      <param name="device" value="/dev/ttyUSB0" type="str"/>
+      <param name="baud" value="115200" type="int"/>
+    </node>
+
+    <!-- Plot -->
+    <group ns="plot" if="$(arg bplot)">
+      <node name="gyro" pkg="rqt_plot" type="rqt_plot"
+      args="/imu1/topic_imu/angular_velocity/x:y:z"/>
+      <node name="accl" pkg="rqt_plot" type="rqt_plot"
+      args="/imu1/topic_imu/linear_acceleration/x:y:z"/>
+    </group>
+
+</launch>
